@@ -1,7 +1,7 @@
 
 # Инструмент BIP39
 
-A tool for converting BIP39 mnemonic phrases to addresses and private keys.
+Инструмент для конвертации BIB39 мнемоник-фраз в адреса и приватные ключи.
 
 ## Оффлайн-запуск
 Скачайте репозиторий.
