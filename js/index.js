@@ -556,7 +556,7 @@
             name: "MFCoin",
             onSelect: function() {
                 network = bitcoin.networks.mfcoin;
-                DOM.bip44coin.val(2);
+                DOM.bip44coin.val(99);
             },
         },
         {
