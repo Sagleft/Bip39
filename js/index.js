@@ -43,6 +43,7 @@
     DOM.tab = $(".derivation-type a");
     DOM.indexToggle = $(".index-toggle");
     DOM.addressToggle = $(".address-toggle");
+    DOM.balanceToggle = $(".balance-toggle");
     DOM.publicKeyToggle = $(".public-key-toggle");
     DOM.privateKeyToggle = $(".private-key-toggle");
 
@@ -359,15 +360,23 @@
         // Elements
         var indexCell = row.find(".index span");
         var addressCell = row.find(".address a");
+        var balanceCell = row.find(".balance a");
         var pubkeyCell = row.find(".pubkey a");
         var privkeyCell = row.find(".privkey a");
         // Content
         var indexText = derivationPath + "/" + index;
         indexCell.text(indexText);
+        
         addressCell.text(address);
         addressCell.on("click",createQR);
+        
+        balanceCell.text("click to view balance");
+        balanceCell.attr('id', address);
+        balanceCell.on("click", getAddressBalance(address));
+        
         pubkeyCell.text(pubkey);
         pubkeyCell.on("click",createQR);
+        
         privkeyCell.text(privkey);
         privkeyCell.on("click",createQR);
         // Visibility
@@ -396,9 +405,32 @@
 
             div.attr("id",address);
             div.qrcode(address);
-            div.appendTo(parent)
+            div.appendTo(parent);
         }
     }
+    
+    function getAddressBalance(address) {
+        //var target = event.target;
+        //var address = target.innerText;
+        //var parent = target.parentNode;
+        //console.log(target);
+        //var address = target.getAttribute('id');
+        $.ajax({
+          url: "https://sagleft.ru/explorer_proxy?addr=" + address,
+          dataType: 'json',
+          success: function( data ) {
+            //target.innerHTML(data);
+            var balance = "";
+            if('error' in data) {
+              balance = "0";
+            } else {
+              balance = data.balance;
+            }
+            $("a#" + address).html(balance);
+          }
+        });
+    }
+    
     function hasStrongRandom() {
         return 'crypto' in window && window['crypto'] !== null;
     }
